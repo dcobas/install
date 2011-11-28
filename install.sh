@@ -1,10 +1,8 @@
 #!/bin/sh
 
-DEVICE_NAME=%(device_name)s
-TRANSFER=%(transfer)s
-DRIVER_NAME=%(driver_name)s
-
-# Generated automatically by encore at %(date)s"
+DEVICE_NAME=NULL
+DRIVER_NAME=NULL
+TRANSFER=/etc/transfer.ref
 
 OUTPUT=":"
 RUN=""
@@ -37,7 +35,7 @@ if [ -z "$MAJOR" ]; then
 	echo "driver $DRIVER_NAME not installed!"
 	exit 1
 fi
-MINORS=`awk '/^#\+#/ && $6 == "'"$DEVICE_NAME"'" { printf("%%s ", $7) }' $TRANSFER`
+MINORS=`awk '/^#\+#/ && $6 == "'"$DEVICE_NAME"'" { printf("%s ", $7) }' $TRANSFER`
 $OUTPUT "creating device nodes for driver $DRIVER_NAME, major $MAJOR, minors $MINORS"
 for MINOR in $MINORS; do
     sh -c "$RUN rm -f /dev/$DRIVER_NAME.$MINOR"
