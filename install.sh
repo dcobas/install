@@ -21,7 +21,7 @@ done
 $OUTPUT "Installing $DEVICE_NAME driver..."
 INSMOD_ARGS=`awk -f transfer2insmod.awk $DEVICE_NAME $TRANSFER`
 if [ x"$INSMOD_ARGS" == x"" ] ; then
-    echo "No $DEVICE_NAME declared in $TRANSFER, exiting"
+    echo >&2 "No $DEVICE_NAME declared in $TRANSFER, exiting"
     exit 1
 fi
 
@@ -32,7 +32,7 @@ sh -c "$RUN $INSMOD_CMD"
 
 MAJOR=`cat /proc/devices | awk '$2 == "'"$DRIVER_NAME"'" {print $1}'`
 if [ -z "$MAJOR" ]; then
-	echo "driver $DRIVER_NAME not installed!"
+	echo >&2 "driver $DRIVER_NAME not installed!"
 	exit 1
 fi
 MINORS=`awk '/^#\+#/ && $6 == "'"$DEVICE_NAME"'" { printf("%s ", $7) }' $TRANSFER`
