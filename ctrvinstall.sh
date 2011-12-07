@@ -7,8 +7,12 @@ MAKEDEVS="y"
 
 OUTPUT=":"
 RUN=""
-
 LUN=0
+
+if [ x"$1" == x"-object" -a x"$2" == x"ctrvdrvr.o" ] ; then
+	shift 2
+fi
+
 while getopts hvnbD:d:t:M:X:V:L: o
 do	case $o in
 	v)	OUTPUT="echo" ;;		# verbose
