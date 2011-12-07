@@ -65,8 +65,8 @@ MINORS=`seq -s' ' 0 16`
 $OUTPUT "creating device nodes for driver $DRIVER_NAME, major $MAJOR, minors $MINORS"
 
 if [ -z "$MAJOR" ]; then
-	echo >&2 "driver $DRIVER_NAME not installed!"
-	echo >&2 "command line [$INSMOD_CMD]"
+	echo >&2 "ctrvinstall: driver $DRIVER_NAME not installed!"
+	echo >&2 "ctrvinstall: command line [$INSMOD_CMD]"
 	exit 1
 fi
 for MINOR in $MINORS; do
