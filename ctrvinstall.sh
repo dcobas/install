@@ -54,7 +54,7 @@ base_address2=`echo $base_address2 | sed 's!,!!'`
 vector=`echo $vector | sed 's!,!!'`
 
 $OUTPUT "Installing $DEVICE_NAME driver..."
-INSMOD_ARGS="luns=$luns base_address1=$base_address1 base_address2=$base_address2 vector=$vector"
+INSMOD_ARGS="luns=$luns vme1=$base_address1 vme2=$base_address2 vecs=$vector"
 if [ x"$luns" == x"" ] ; then
     echo >&2 "ctrvinstall: No $DEVICE_NAME declared in $TRANSFER, exiting"
     exit 1
