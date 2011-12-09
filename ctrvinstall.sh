@@ -2,6 +2,8 @@
 
 DEVICE_NAME=CTRV
 DRIVER_NAME=ctrv
+DRIVER_PATH=../$DRIVER_NAME/$DRIVER_NAME-20111209.ko
+DEVNAME=ctr
 TRANSFER=/etc/transfer.ref
 MAKEDEVS="y"
 
@@ -52,7 +54,7 @@ if [ x"$luns" == x"" ] ; then
     exit 1
 fi
 
-INSMOD_CMD="insmod $DRIVER_NAME.ko $INSMOD_ARGS"
+INSMOD_CMD="insmod $DRIVER_PATH $INSMOD_ARGS"
 $OUTPUT installing $DRIVER_NAME by $INSMOD_CMD
 sh -c "$RUN $INSMOD_CMD"
 
@@ -62,7 +64,7 @@ fi
 
 MAJOR=`cat /proc/devices | awk '$2 == "'"$DRIVER_NAME"'" {print $1}'`
 MINORS=`seq -s' ' 0 16`
-$OUTPUT "creating device nodes for driver $DRIVER_NAME, major $MAJOR, minors $MINORS"
+$OUTPUT "creating device nodes /dev/$DEVNAME.* for driver $DRIVER_NAME, major $MAJOR, minors $MINORS"
 
 if [ -z "$MAJOR" ]; then
 	echo >&2 "ctrvinstall: driver $DRIVER_NAME not installed!"
@@ -70,6 +72,6 @@ if [ -z "$MAJOR" ]; then
 	exit 1
 fi
 for MINOR in $MINORS; do
-    sh -c "$RUN rm -f /dev/$DRIVER_NAME.$MINOR"
-    sh -c "$RUN mknod /dev/$DRIVER_NAME.$MINOR c $MAJOR $MINOR"
+    sh -c "$RUN rm -f /dev/$DEVNAME.$MINOR"
+    sh -c "$RUN mknod /dev/$DEVNAME.$MINOR c $MAJOR $MINOR"
 done
