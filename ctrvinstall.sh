@@ -24,8 +24,14 @@ do	case $o in
 	d)	DRIVER_NAME="$OPTARG" ;;
 	t)	TRANSFER="$OPTARG" ;;
 	M)	LUN=`expr $LUN + 1`
-		luns="$luns,$LUN"
-		base_address1="$base_address1,$OPTARG" ;;
+		base_address1="$base_address1,$OPTARG"
+		# transfer_lun=`awk '/^#\+#/ && $4 == "VME" && $6 == "CTRV" && "0x" $11 == "'$OPTARG'" { print $7 + 1 }' $TRANSFER`
+		# if [ x"$transfer_lun" != x"$LUN" ] ; then
+		# echo $transfer_lun $LUN
+		# echo >&2 "ctrvinstall: WARNING: possible misassignment of LUN in CTRV #"$LUN
+		# LUN=$transfer_lun
+		# fi
+		luns="$luns,$LUN" ;;
 	X)	base_address2="$base_address2,$OPTARG" ;;
 	V)	vector="$vector,$OPTARG";;
 	L)	level="$level,$OPTARG";;
